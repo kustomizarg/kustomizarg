@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KUSTOMIZARG - Tu Universo, Tu Diseño</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* =========================================
+           1. VARIABLES Y RESET
+           ========================================= */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --neon-purple: #b829dd;
+            --neon-pink: #ff2a6d;
+            --neon-cyan: #05d9e8;
+            --neon-yellow: #ffd60a;
+            --deep-space: #0a0a0f;
+            --void: #050508;
+            --glass: rgba(255, 255, 255, 0.03);
+            --container-max: 1200px;
+            --nav-height: 70px;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: var(--void);
+            color: #fff;
+            overflow-x: hidden;
+            cursor: none;
+            padding-top: var(--nav-height);
+        }
+
+        /* =========================================
+           2. CURSOR Y BACKGROUND
+           ========================================= */
+        .cursor {
+            width: 20px; height: 20px;
+            border: 2px solid var(--neon-cyan);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.1s;
+            mix-blend-mode: difference;
+        }
+
+        .cursor-follower {
+            width: 40px; height: 40px;
+            background: radial-gradient(circle, var(--neon-purple) 0%, transparent 70%);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            opacity: 0.5;
+            transition: transform 0.3s ease;
+        }
+
+        .bg-animation {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(ellipse at 20% 80%, rgba(184, 41, 221, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(5, 217, 232, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(255, 42, 109, 0.05) 0%, transparent 70%);
+        }
+
+        .grid-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridMove 20s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(50px); }
+        }
+
+        /* =========================================
+           3. NAVEGACIÓN
+           ========================================= */
+        nav {
+            position: fixed;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            background: rgba(10, 10, 15, 0.85);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            padding: 12px 30px;
+            display: flex;
+            gap: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            flex-wrap: wrap;
+            justify-content: center;
+            height: var(--nav-height);
+            align-items: center;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            position: relative;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        nav a::before {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--neon-purple), var(--neon-cyan));
+            transition: width 0.3s;
+        }
+
+        nav a:hover::before { width: 100%; }
+        nav a:hover { color: var(--neon-cyan); text-shadow: 0 0 15px var(--neon-cyan); }
+
+        /* =========================================
+           4. HERO SECTION (Título Centrado y Seguro)
+           ========================================= */
+        .hero {
+            min-height: 85vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px 80px;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: var(--container-max);
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .hero-text {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(2rem, 8vw, 4.5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            width: 100%;
+            background: linear-gradient(135deg, #fff 0%, var(--neon-cyan) 50%, var(--neon-purple) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: textGlow 3s ease-in-out infinite;
+            text-align: center;
+            padding: 0 10px;
+        }
+
+        @keyframes textGlow {
+            0%, 100% { filter: drop-shadow(0 0 15px rgba(5, 217, 232, 0.3)); }
+            50% { filter: drop-shadow(0 0 30px rgba(184, 41, 221, 0.5)); }
+        }
+
+        .hero-text p {
+            font-size: 1.15rem;
+            color: rgba(255, 255, 255, 0.75);
+            margin-bottom: 30px;
+            line-height: 1.6;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        .cta-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn-primary, .btn-secondary {
+            padding: 16px 32px;
+            border-radius: 50px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--neon-purple), var(--neon-pink));
+            color: #fff;
+            box-shadow: 0 10px 30px rgba(184, 41, 221, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-primary:hover::before { left: 100%; }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(184, 41, 221, 0.6); }
+
+        .btn-secondary {
+            background: transparent;
+            color: #fff;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--neon-cyan);
+            background: rgba(5, 217, 232, 0.1);
+            box-shadow: 0 0 25px rgba(5, 217, 232, 0.3);
+        }
+
+        /* =========================================
+           5. TARJETAS FLOTANTES (GRID RELATIVO ANTI-CHOQUE)
+           ========================================= */
+        .hero-visual {
+            position: relative;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: auto auto;
+            gap: 40px; /* Espacio de seguridad que impide el choque */
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            min-height: 400px;
+        }
+
+        .floating-card {
+            position: relative; /* CLAVE: Ya no es absolute, respeta el grid */
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 24px;
+            padding: 25px 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            width: 100%;
+            max-width: 220px;
+            z-index: 2;
+            cursor: pointer;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-card:hover {
+            border-color: var(--neon-cyan);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 25px 50px rgba(5, 217, 232, 0.4);
+        }
+
+        .floating-card:active {
+            transform: scale(0.95) !important;
+        }
+
+        /* Distribución asimétrica dinámica pero segura */
+        .floating-card:nth-child(1) {
+            grid-column: 1;
+            grid-row: 1;
+            justify-self: end;
+            align-self: start;
+            animation-delay: 0s;
+            background: linear-gradient(135deg, rgba(184, 41, 221, 0.2), rgba(5, 217, 232, 0.2));
+        }
+
+        .floating-card:nth-child(2) {
+            grid-column: 2;
+            grid-row: 2;
+            justify-self: start;
+            align-self: end;
+            animation-delay: 2s;
+            background: linear-gradient(135deg, rgba(255, 42, 109, 0.2), rgba(255, 214, 10, 0.2));
+        }
+
+        .floating-card:nth-child(3) {
+            grid-column: 2;
+            grid-row: 1;
+            justify-self: center;
+            align-self: center;
+            margin-top: 30px;
+            animation-delay: 4s;
+            background: linear-gradient(135deg, rgba(5, 217, 232, 0.2), rgba(184, 41, 221, 0.2));
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(2deg); }
+        }
+
+        .floating-card .card-icon {
+            width: 70px; height: 70px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            margin: 0 auto 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .floating-card:hover .card-icon {
+            transform: scale(1.1);
+        }
+
+        .floating-card h3 { font-size: 1rem; font-weight: 600; }
+
+        /* =========================================
+           6. SECCIONES GENERALES
+           ========================================= */
+        .section-padding {
+            padding: 80px 20px;
+        }
+
+        .container {
+            max-width: var(--container-max);
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 0 10px;
+        }
+
+        .section-header h2 {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            font-weight: 800;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #fff, var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+        }
+
+        .section-header p {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.6);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.5;
+        }
+
+        /* =========================================
+           7. CATEGORÍAS
+           ========================================= */
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+        }
+
+        .category-item {
+            position: relative;
+            min-height: 380px;
+            border-radius: 24px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        .category-item::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(180deg, transparent 0%, rgba(5, 5, 8, 0.95) 100%);
+            z-index: 1;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .category-item:hover::before { opacity: 0.95; }
+        .category-item:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4); }
+
+        .category-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.5s;
+        }
+
+        .category-item:hover .category-bg { transform: scale(1.05); }
+
+        .category-content {
+            position: relative;
+            z-index: 2;
+            padding: 30px;
+            transform: translateY(10px);
+            transition: transform 0.3s;
+        }
+
+        .category-item:hover .category-content { transform: translateY(0); }
+
+        .category-icon { font-size: 2.5rem; margin-bottom: 10px; display: block; }
+
+        .category-item h3 {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            line-height: 1.2;
+        }
+
+        .category-item p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .category-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tag {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            transition: all 0.3s;
+        }
+
+        .tag:hover {
+            background: var(--neon-purple);
+            border-color: var(--neon-purple);
+            transform: translateY(-2px);
+        }
+
+        /* =========================================
+           8. MODALES
+           ========================================= */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(5, 5, 8, 0.9);
+            backdrop-filter: blur(12px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            background: rgba(10, 10, 15, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 32px;
+            padding: 50px 40px 40px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            transform: scale(0.9) translateY(30px);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8);
+        }
+
+        .modal-overlay.active .modal-content { transform: scale(1) translateY(0); }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            z-index: 10;
+        }
+
+        .modal-close:hover {
+            background: var(--neon-pink);
+            border-color: var(--neon-pink);
+            transform: rotate(90deg);
+        }
+
+        .modal-header { 
+            text-align: center; 
+            margin-bottom: 40px; 
+            padding-top: 10px;
+        }
+        
+        .modal-icon { font-size: 4rem; margin-bottom: 15px; display: block; animation: bounce 2s infinite; }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .modal-header h2 {
+            font-family: 'Syne', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #fff, var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+        }
+
+        .modal-header p { font-size: 1rem; color: rgba(255, 255, 255, 0.7); line-height: 1.5; }
+
+        .subcategories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+
+        .subcategory-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 25px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .subcategory-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--neon-cyan);
+            background: rgba(5, 217, 232, 0.05);
+            box-shadow: 0 10px 30px rgba(5, 217, 232, 0.15);
+        }
+
+        .subcategory-icon { font-size: 2.5rem; margin-bottom: 10px; display: block; }
+        .subcategory-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 5px; }
+        .subcategory-card p { color: rgba(255, 255, 255, 0.6); font-size: 0.85rem; line-height: 1.4; }
+
+        .modal-customize-btn {
+            width: 100%;
+            background: linear-gradient(135deg, var(--neon-purple), var(--neon-pink));
+            color: #fff;
+            padding: 20px;
+            border: none;
+            border-radius: 24px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(184, 41, 221, 0.4);
+        }
+
+        .modal-customize-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(184, 41, 221, 0.6);
+        }
+
+        /* =========================================
+           9. SECCIÓN PERSONALIZACIÓN
+           ========================================= */
+        .custom-section-bg {
+            background: rgba(255,255,255,0.01);
+        }
+
+        .custom-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .custom-visual {
+            position: relative;
+            min-height: 450px;
+            background: linear-gradient(135deg, rgba(184, 41, 221, 0.1), rgba(5, 217, 232, 0.1));
+            border-radius: 32px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .custom-visual::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            background: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255, 255, 255, 0.02) 10px, rgba(255, 255, 255, 0.02) 20px);
+            animation: slide 20s linear infinite;
+        }
+
+        @keyframes slide {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        .upload-zone {
+            background: rgba(10, 10, 15, 0.9);
+            backdrop-filter: blur(20px);
+            border: 2px dashed rgba(5, 217, 232, 0.4);
+            border-radius: 24px;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            transition: all 0.3s;
+            cursor: pointer;
+            width: 90%;
+        }
+
+        .upload-zone:hover {
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 40px rgba(5, 217, 232, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .upload-icon { font-size: 3.5rem; margin-bottom: 15px; display: block; }
+        
+        .upload-zone h3 {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #fff, var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.3;
+        }
+
+        .upload-zone p { color: rgba(255, 255, 255, 0.6); margin-bottom: 20px; font-size: 0.95rem; line-height: 1.4; }
+
+        .file-types { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+        .file-type {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .custom-content h2 {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(2rem, 3.5vw, 3rem);
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+
+        .custom-content h2 span {
+            background: linear-gradient(135deg, var(--neon-purple), var(--neon-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .feature-list { list-style: none; margin: 30px 0; }
+        .feature-list li {
+            padding: 15px 0;
+            padding-left: 40px;
+            position: relative;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.85);
+            line-height: 1.4;
+        }
+
+        .feature-list li:last-child { border-bottom: none; }
+
+        .feature-list li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--neon-cyan);
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+
+        /* =========================================
+           10. FOOTER
+           ========================================= */
+        footer {
+            background: rgba(5, 5, 8, 0.9);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 60px 20px 30px;
+        }
+
+        .footer-content {
+            max-width: var(--container-max);
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-brand h3 {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .footer-brand p { color: rgba(255, 255, 255, 0.6); line-height: 1.6; margin-bottom: 20px; font-size: 0.95rem; }
+
+        .social-links { display: flex; gap: 12px; }
+        .social-links a {
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 1.1rem;
+        }
+
+        .social-links a:hover {
+            background: var(--neon-purple);
+            border-color: var(--neon-purple);
+            transform: translateY(-3px);
+        }
+
+        .footer-links h4 {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .footer-links ul { list-style: none; }
+        .footer-links li { margin-bottom: 12px; }
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .footer-links a:hover { color: var(--neon-cyan); padding-left: 8px; }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.85rem;
+        }
+
+        /* =========================================
+           11. RESPONSIVE (Anti-Colisión Garantizada)
+           ========================================= */
+        @media (max-width: 900px) {
+            .hero-content { 
+                grid-template-columns: 1fr; 
+                text-align: center; 
+                gap: 40px; 
+            }
+            .hero-text p { margin: 0 auto 30px; }
+            
+            /* En móvil/tablet vertical: Grid de 1 columna, apiladas verticalmente */
+            .hero-visual { 
+                grid-template-columns: 1fr;
+                grid-template-rows: auto;
+                gap: 20px;
+                min-height: auto;
+                margin-top: 20px;
+            }
+            
+            .floating-card {
+                grid-column: 1 !important;
+                grid-row: auto !important;
+                justify-self: center !important;
+                align-self: auto !important;
+                margin-top: 0 !important;
+                max-width: 320px;
+                animation: floatMobile 4s ease-in-out infinite;
+            }
+            
+            .floating-card:nth-child(1) { animation-delay: 0s; }
+            .floating-card:nth-child(2) { animation-delay: 1.3s; }
+            .floating-card:nth-child(3) { animation-delay: 2.6s; }
+            
+            .floating-card .card-icon { width: 60px; height: 60px; font-size: 2rem; margin-bottom: 10px; }
+            .floating-card h3 { font-size: 0.95rem; }
+            
+            .custom-container { grid-template-columns: 1fr; gap: 40px; }
+            .custom-visual { min-height: 350px; }
+        }
+
+        @keyframes floatMobile {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        @media (max-width: 600px) {
+            body { cursor: auto; padding-top: 60px; }
+            .cursor, .cursor-follower { display: none; }
+            
+            nav { 
+                width: 90%; 
+                padding: 10px 15px; 
+                gap: 15px; 
+                top: 10px; 
+                height: auto;
+            }
+            nav a { font-size: 0.7rem; letter-spacing: 1px; }
+            
+            .hero { padding: 30px 15px 60px; min-height: auto; }
+            .section-padding { padding: 60px 15px; }
+            
+            .modal-content { padding: 60px 20px 30px; border-radius: 24px; }
+            .modal-close { top: 15px; right: 15px; }
+            .modal-header h2 { font-size: 1.8rem; }
+            
+            .subcategories-grid { grid-template-columns: 1fr 1fr; }
+            .footer-content { grid-template-columns: 1fr; text-align: center; gap: 30px; }
+            .social-links { justify-content: center; }
+            .footer-links a:hover { padding-left: 0; }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+    </style>
+</head>
+<body>
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+    <div class="bg-animation"></div>
+    <div class="grid-overlay"></div>
+
+    <nav>
+        <a href="#inicio">Inicio</a>
+        <a href="#categorias">Categorías</a>
+        <a href="#personalizar">Personalizar</a>
+        <a href="#contacto">Contacto</a>
+    </nav>
+
+    <section class="hero" id="inicio">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>KUSTOMIZARG</h1>
+                <p>Transformamos tus ideas en productos únicos. Cuadros, tazas, alfombras y más con tus diseños favoritos de anime, fútbol, música y cultura pop.</p>
+                <div class="cta-group">
+                    <button class="btn-primary" onclick="openModal('cuadros')">Explorar Catálogo</button>
+                    <button class="btn-secondary" onclick="openModal('personalizar')">Subir mi Diseño</button>
+                </div>
+            </div>
+            
+            <!-- TARJETAS FLOTANTES EN GRID RELATIVO (NUNCA SE SUPERPONEN) -->
+            <div class="hero-visual">
+                <div class="floating-card" onclick="openModal('cuadros')">
+                    <div class="card-icon" style="background: linear-gradient(135deg, #b829dd, #ff2a6d);">🎨</div>
+                    <h3>Cuadros Únicos</h3>
+                </div>
+                <div class="floating-card" onclick="openModal('tazas')">
+                    <div class="card-icon" style="background: linear-gradient(135deg, #05d9e8, #ffd60a);">☕</div>
+                    <h3>Tazas Custom</h3>
+                </div>
+                <div class="floating-card" onclick="openModal('alfombras')">
+                    <div class="card-icon" style="background: linear-gradient(135deg, #ff2a6d, #b829dd);">🎮</div>
+                    <h3>Pads Gamers</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding" id="categorias">
+        <div class="container">
+            <div class="section-header reveal">
+                <h2>EXPLORÁ TU UNIVERSO</h2>
+                <p>Elegí tu categoría y personalizá con tus diseños favoritos</p>
+            </div>
+            
+            <div class="categories-grid">
+                <div class="category-item reveal" onclick="openModal('cuadros')">
+                    <div class="category-bg" style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);"></div>
+                    <div class="category-content">
+                        <span class="category-icon">🖼️</span>
+                        <h3>Cuadros</h3>
+                        <p>Arte personalizado para tu espacio</p>
+                        <div class="category-tags">
+                            <span class="tag">Anime</span><span class="tag">Fútbol</span><span class="tag">Música</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category-item reveal" onclick="openModal('tazas')">
+                    <div class="category-bg" style="background: linear-gradient(135deg, #2d1b4e 0%, #1a1a2e 100%);"></div>
+                    <div class="category-content">
+                        <span class="category-icon">☕</span>
+                        <h3>Tazas</h3>
+                        <p>Tu diseño en cada mañana</p>
+                        <div class="category-tags">
+                            <span class="tag">Cerámica</span><span class="tag">Plásticas</span><span class="tag">Térmicas</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category-item reveal" onclick="openModal('alfombras')">
+                    <div class="category-bg" style="background: linear-gradient(135deg, #0f3460 0%, #16213e 100%);"></div>
+                    <div class="category-content">
+                        <span class="category-icon">🎮</span>
+                        <h3>Alfombras</h3>
+                        <p>Estilo y confort personalizado</p>
+                        <div class="category-tags">
+                            <span class="tag">Pads Gamers</span><span class="tag">Salida Cama</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category-item reveal" onclick="openModal('varios')">
+                    <div class="category-bg" style="background: linear-gradient(135deg, #533483 0%, #2d1b4e 100%);"></div>
+                    <div class="category-content">
+                        <span class="category-icon">🎁</span>
+                        <h3>Artículos Varios</h3>
+                        <p>Detalles que hacen la diferencia</p>
+                        <div class="category-tags">
+                            <span class="tag">Llaveros</span><span class="tag">Stickers</span><span class="tag">Parches</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MODALES -->
+    <div class="modal-overlay" id="modal-cuadros">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('cuadros')">✕</button>
+            <div class="modal-header">
+                <span class="modal-icon">🖼️</span>
+                <h2>Cuadros Personalizados</h2>
+                <p>Transformá tus imágenes favoritas en arte único</p>
+            </div>
+            <div class="subcategories-grid">
+                <div class="subcategory-card"><span class="subcategory-icon">🎌</span><h3>Anime</h3><p>Personajes en alta calidad</p></div>
+                <div class="subcategory-card"><span class="subcategory-icon">⚽</span><h3>Fútbol</h3><p>Equipos y momentos históricos</p></div>
+                <div class="subcategory-card"><span class="subcategory-icon">🎵</span><h3>Música</h3><p>Bandas y artistas icónicos</p></div>
+                <div class="subcategory-card"><span class="subcategory-icon">📺</span><h3>YouTubers</h3><p>Creadores de contenido</p></div>
+                <div class="subcategory-card"><span class="subcategory-icon">🧸</span><h3>Infantiles</h3><p>Diseños divertidos</p></div>
+            </div>
+            <button class="modal-customize-btn" onclick="alert('Funcionalidad de personalización (requiere backend)')">🎨 Personalizar mi Cuadro</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-tazas">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('tazas')">✕</button>
+            <div class="modal-header">
+                <span class="modal-icon">☕</span>
+                <h2>Tazas Personalizadas</h2>
+                <p>Cada mañana con tu diseño favorito</p>
+            </div>
+            <div class="subcategories-grid">
+                <div class="subcategory-card"><span class="subcategory-icon">🏺</span><h3>Cerámica</h3><p>Clásicas y elegantes</p></div>
+                <div class="subcategory-card"><span class="subcategory-icon">🥤</span><h3>Plásticas</h3><p>Resistentes para el día a día</p></div>
+                <div class="subcategory-card"><span class="subcategory-icon">🔥</span><h3>Térmicas</h3><p>Cambian de color con calor</p></div>
+            </div>
+            <button class="modal-customize-btn" onclick="alert('Funcionalidad de personalización (requiere backend)')">☕ Personalizar mi Taza</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-alfombras">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('alfombras')">✕</button>
+            <div class="modal-header">
+                <span class="modal-icon">🎮</span>
+                <h2>Alfombras & Pads</h2>
+                <p>Comodidad y estilo para tu espacio</p>
+            </div>
+            <div class="subcategories-grid">
+                <div class="subcategory-card"><span class="subcategory-icon">🖱️</span><h3>Pads Gamers</h3><p>Superficie óptima profesional</p></div>
+                <div class="subcategory-card"><span class="subcategory-icon">🛏️</span><h3>Salida de Cama</h3><p>Suaves y acogedoras</p></div>
+                <div class="subcategory-card"><span class="subcategory-icon">🏠</span><h3>Decorativas</h3><p>Para living u oficina</p></div>
+            </div>
+            <button class="modal-customize-btn" onclick="alert('Funcionalidad de personalización (requiere backend)')">🎮 Personalizar mi Alfombra</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-varios">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('varios')">✕</button>
+            <div class="modal-header">
+                <span class="modal-icon">🎁</span>
+                <h2>Artículos Varios</h2>
+                <p>Detalles únicos para regalar</p>
+            </div>
+            <div class="subcategories-grid">
+                <div class="subcategory-card"><span class="subcategory-icon">🔑</span><h3>Llaveros</h3><p>Con tu diseño favorito</p></div>
+                <div class="subcategory-card"><span class="subcategory-icon">✨</span><h3>Stickers</h3><p>Resistentes al agua</p></div>
+                <div class="subcategory-card"><span class="subcategory-icon">🏷️</span><h3>Parches</h3><p>Para ropa y mochilas</p></div>
+                <div class="subcategory-card"><span class="subcategory-icon">🧲</span><h3>Imanes</h3><p>Para refrigerador</p></div>
+            </div>
+            <button class="modal-customize-btn" onclick="alert('Funcionalidad de personalización (requiere backend)')">🎁 Personalizar mi Artículo</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-personalizar">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('personalizar')">✕</button>
+            <div class="modal-header">
+                <span class="modal-icon">📤</span>
+                <h2>Subí tu Diseño</h2>
+                <p>Arrastrá tu archivo o hacé clic para seleccionar</p>
+            </div>
+            <div class="upload-zone" style="margin-bottom: 30px;">
+                <span class="upload-icon">📤</span>
+                <h3>Arrastrá tu archivo aquí</h3>
+                <p>o hacé clic para seleccionar</p>
+                <div class="file-types">
+                    <span class="file-type">JPG</span><span class="file-type">PNG</span><span class="file-type">SVG</span><span class="file-type">PDF</span><span class="file-type">Máx. 50MB</span>
+                </div>
+            </div>
+            <ul class="feature-list">
+                <li>Asesoramiento personalizado sin cargo</li>
+                <li>Preview digital antes de producir</li>
+                <li>Calidad premium garantizada</li>
+                <li>Envíos a todo el país</li>
+            </ul>
+            <button class="modal-customize-btn" onclick="alert('Funcionalidad de subida (requiere backend)')">🚀 Comenzar Personalización</button>
+        </div>
+    </div>
+
+    <section class="section-padding custom-section-bg" id="personalizar">
+        <div class="container">
+            <div class="custom-container">
+                <div class="custom-visual reveal">
+                    <div class="upload-zone">
+                        <span class="upload-icon">📤</span>
+                        <h3>Subí tu Diseño</h3>
+                        <p>Arrastrá tu archivo o hacé clic para seleccionar</p>
+                        <div class="file-types">
+                            <span class="file-type">JPG</span><span class="file-type">PNG</span><span class="file-type">SVG</span><span class="file-type">Máx. 50MB</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="custom-content reveal">
+                    <h2>¿TENÉS TU PROPIO <span>DISEÑO?</span></h2>
+                    <p style="color: rgba(255,255,255,0.7); font-size: 1.05rem; line-height: 1.6; margin-bottom: 25px;">
+                        Subí tu imagen y nosotros la transformamos en el producto perfecto. Nuestro equipo se encarga de que quede exactamente como lo imaginaste.
+                    </p>
+                    <ul class="feature-list">
+                        <li>Asesoramiento personalizado sin cargo</li>
+                        <li>Preview digital antes de producir</li>
+                        <li>Calidad premium garantizada</li>
+                        <li>Envíos a todo el país</li>
+                    </ul>
+                    <button class="btn-primary" style="margin-top: 20px;" onclick="openModal('personalizar')">Comenzar Ahora</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contacto">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>KUSTOMIZARG</h3>
+                <p>Tu universo de productos personalizados. Transformamos tus ideas en realidad con calidad premium.</p>
+                <div class="social-links">
+                    <a href="#">📷</a><a href="#">📘</a><a href="#">🎵</a><a href="#">💬</a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h4>Categorías</h4>
+                <ul>
+                    <li><a href="#" onclick="openModal('cuadros'); return false;">Cuadros</a></li>
+                    <li><a href="#" onclick="openModal('tazas'); return false;">Tazas</a></li>
+                    <li><a href="#" onclick="openModal('alfombras'); return false;">Alfombras</a></li>
+                    <li><a href="#" onclick="openModal('varios'); return false;">Artículos Varios</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Personalización</h4>
+                <ul>
+                    <li><a href="#">Cómo Funciona</a></li>
+                    <li><a href="#" onclick="openModal('personalizar'); return false;">Subir Diseño</a></li>
+                    <li><a href="#">Guía de Tamaños</a></li>
+                    <li><a href="#">Preguntas Frecuentes</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Contacto</h4>
+                <ul>
+                    <li><a href="#">WhatsApp</a></li>
+                    <li><a href="#">Email</a></li>
+                    <li><a href="#">Envíos</a></li>
+                    <li><a href="#">Seguimiento</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Kustomizarg. Todos los derechos reservados. | Diseñado con 💜 en Argentina</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Cursor personalizado
+            const cursor = document.querySelector('.cursor');
+            const cursorFollower = document.querySelector('.cursor-follower');
+
+            if (cursor && cursorFollower) {
+                document.addEventListener('mousemove', (e) => {
+                    cursor.style.left = e.clientX + 'px';
+                    cursor.style.top = e.clientY + 'px';
+                    setTimeout(() => {
+                        cursorFollower.style.left = (e.clientX - 10) + 'px';
+                        cursorFollower.style.top = (e.clientY - 10) + 'px';
+                    }, 50);
+                });
+
+                document.addEventListener('mousedown', () => cursor.style.transform = 'scale(0.8)');
+                document.addEventListener('mouseup', () => cursor.style.transform = 'scale(1)');
+            }
+
+            // 2. Scroll Reveal
+            const reveals = document.querySelectorAll('.reveal');
+            const revealOnScroll = () => {
+                reveals.forEach(element => {
+                    const windowHeight = window.innerHeight;
+                    const elementTop = element.getBoundingClientRect().top;
+                    if (elementTop < windowHeight - 100) {
+                        element.classList.add('active');
+                    }
+                });
+            };
+            window.addEventListener('scroll', revealOnScroll);
+            revealOnScroll();
+
+            // 3. Parallax suave
+            document.addEventListener('mousemove', (e) => {
+                const bg = document.querySelector('.bg-animation');
+                if (bg) {
+                    const mouseX = e.clientX / window.innerWidth;
+                    const mouseY = e.clientY / window.innerHeight;
+                    bg.style.transform = `translate(${mouseX * 15}px, ${mouseY * 15}px)`;
+                }
+            });
+
+            // 4. Modales
+            window.openModal = function(modalId) {
+                const modal = document.getElementById(`modal-${modalId}`);
+                if (modal) {
+                    modal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                }
+            };
+
+            window.closeModal = function(modalId) {
+                const modal = document.getElementById(`modal-${modalId}`);
+                if (modal) {
+                    modal.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            };
+
+            document.querySelectorAll('.modal-overlay').forEach(overlay => {
+                overlay.addEventListener('click', (e) => {
+                    if (e.target === overlay) {
+                        overlay.classList.remove('active');
+                        document.body.style.overflow = 'auto';
+                    }
+                });
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    document.querySelectorAll('.modal-overlay.active').forEach(modal => {
+                        modal.classList.remove('active');
+                    });
+                    document.body.style.overflow = 'auto';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
