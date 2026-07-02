@@ -138,6 +138,22 @@
         nav a:hover::before { width: 100%; }
         nav a:hover { color: var(--neon-cyan); text-shadow: 0 0 15px var(--neon-cyan); }
 
+        .nav-logo { margin-right: 6px; display: flex; align-items: center; }
+        .nav-logo::before { display: none; }
+        .nav-logo img {
+            height: 38px;
+            width: 38px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 15px rgba(184, 41, 221, 0.5);
+            transition: box-shadow 0.3s, transform 0.3s;
+        }
+        .nav-logo:hover img {
+            box-shadow: 0 0 22px rgba(5, 217, 232, 0.7);
+            transform: scale(1.08);
+        }
+
         /* =========================================
            4. HERO SECTION (Título Centrado y Seguro)
            ========================================= */
@@ -302,7 +318,7 @@
             justify-self: end;
             align-self: start;
             animation-delay: 0s;
-            background: linear-gradient(135deg, rgba(184, 41, 221, 0.2), rgba(5, 217, 232, 0.2));
+            background: linear-gradient(135deg, rgba(184, 41, 221, 0.55), rgba(5, 217, 232, 0.5)), url('images/18817a657-319b-4fa9-afaa-d93d781c40ce.png') center/cover;
         }
 
         .floating-card:nth-child(2) {
@@ -311,7 +327,7 @@
             justify-self: start;
             align-self: end;
             animation-delay: 2s;
-            background: linear-gradient(135deg, rgba(255, 42, 109, 0.2), rgba(255, 214, 10, 0.2));
+            background: linear-gradient(135deg, rgba(255, 42, 109, 0.55), rgba(255, 214, 10, 0.5)), url('images/16b71e3aa-1c0a-4810-8d18-86f9c02d6c68.png') center/cover;
         }
 
         .floating-card:nth-child(3) {
@@ -321,7 +337,7 @@
             align-self: center;
             margin-top: 30px;
             animation-delay: 4s;
-            background: linear-gradient(135deg, rgba(5, 217, 232, 0.2), rgba(184, 41, 221, 0.2));
+            background: linear-gradient(135deg, rgba(5, 217, 232, 0.55), rgba(184, 41, 221, 0.5)), url('images/1879e5bcc-1b70-4839-80ee-38d23221560b.png') center/cover;
         }
 
         @keyframes float {
@@ -520,6 +536,12 @@
 
         .modal-overlay.active .modal-content { transform: scale(1) translateY(0); }
 
+        #modal-cuadros .modal-content { background: linear-gradient(rgba(10, 10, 15, 0.94), rgba(10, 10, 15, 0.97)), url('images/18817a657-319b-4fa9-afaa-d93d781c40ce.png') center/cover; }
+        #modal-tazas .modal-content { background: linear-gradient(rgba(10, 10, 15, 0.94), rgba(10, 10, 15, 0.97)), url('images/16b71e3aa-1c0a-4810-8d18-86f9c02d6c68.png') center/cover; }
+        #modal-alfombras .modal-content { background: linear-gradient(rgba(10, 10, 15, 0.94), rgba(10, 10, 15, 0.97)), url('images/1879e5bcc-1b70-4839-80ee-38d23221560b.png') center/cover; }
+        #modal-varios .modal-content { background: linear-gradient(rgba(10, 10, 15, 0.94), rgba(10, 10, 15, 0.97)), url('images/1c784e7b5-ab84-44d7-a06a-3fef3e63b463.png') center/cover; }
+        #modal-personalizar .modal-content { background: linear-gradient(rgba(10, 10, 15, 0.94), rgba(10, 10, 15, 0.97)), url('images/1cea05bc4-f5d9-436c-8aae-27779e9c7921.png') center/cover; }
+
         .modal-close {
             position: absolute;
             top: 20px;
@@ -638,7 +660,7 @@
         .custom-visual {
             position: relative;
             min-height: 450px;
-            background: linear-gradient(135deg, rgba(184, 41, 221, 0.1), rgba(5, 217, 232, 0.1));
+            background: linear-gradient(135deg, rgba(10, 10, 15, 0.72), rgba(10, 10, 15, 0.55)), url('images/1f6dc7a51-5b6a-4b0a-ad3b-a36099c6434a.png') center/cover;
             border-radius: 32px;
             border: 1px solid rgba(255, 255, 255, 0.1);
             display: flex;
@@ -902,6 +924,7 @@
     <div class="grid-overlay"></div>
 
     <nav>
+        <a href="#inicio" class="nav-logo"><img src="images/177fc8a5f-1f40-49fd-9da0-efb2bec73aa8.png" alt="Kustomizarg"></a>
         <a href="#inicio">Inicio</a>
         <a href="#categorias">Categorías</a>
         <a href="#personalizar">Personalizar</a>
@@ -946,7 +969,7 @@
             
             <div class="categories-grid">
                 <div class="category-item reveal" onclick="openModal('cuadros')">
-                    <div class="category-bg" style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);"></div>
+                    <div class="category-bg" style="background-image: url('images/18817a657-319b-4fa9-afaa-d93d781c40ce.png');"></div>
                     <div class="category-content">
                         <span class="category-icon">🖼️</span>
                         <h3>Cuadros</h3>
@@ -958,7 +981,7 @@
                 </div>
 
                 <div class="category-item reveal" onclick="openModal('tazas')">
-                    <div class="category-bg" style="background: linear-gradient(135deg, #2d1b4e 0%, #1a1a2e 100%);"></div>
+                    <div class="category-bg" style="background-image: url('images/16b71e3aa-1c0a-4810-8d18-86f9c02d6c68.png');"></div>
                     <div class="category-content">
                         <span class="category-icon">☕</span>
                         <h3>Tazas</h3>
@@ -970,7 +993,7 @@
                 </div>
 
                 <div class="category-item reveal" onclick="openModal('alfombras')">
-                    <div class="category-bg" style="background: linear-gradient(135deg, #0f3460 0%, #16213e 100%);"></div>
+                    <div class="category-bg" style="background-image: url('images/1879e5bcc-1b70-4839-80ee-38d23221560b.png');"></div>
                     <div class="category-content">
                         <span class="category-icon">🎮</span>
                         <h3>Alfombras</h3>
@@ -982,7 +1005,7 @@
                 </div>
 
                 <div class="category-item reveal" onclick="openModal('varios')">
-                    <div class="category-bg" style="background: linear-gradient(135deg, #533483 0%, #2d1b4e 100%);"></div>
+                    <div class="category-bg" style="background-image: url('images/1c784e7b5-ab84-44d7-a06a-3fef3e63b463.png');"></div>
                     <div class="category-content">
                         <span class="category-icon">🎁</span>
                         <h3>Artículos Varios</h3>
@@ -1128,7 +1151,10 @@
     <footer id="contacto">
         <div class="footer-content">
             <div class="footer-brand">
-                <h3>KUSTOMIZARG</h3>
+                <div style="display:flex; align-items:center; gap:14px; margin-bottom:15px;">
+                    <img src="images/image_99f8d23f.png" alt="Kustomizarg" style="height:46px; width:46px; object-fit:cover; border-radius:12px; box-shadow:0 6px 18px rgba(0,0,0,0.5);">
+                    <h3 style="margin-bottom:0;">KUSTOMIZARG</h3>
+                </div>
                 <p>Tu universo de productos personalizados. Transformamos tus ideas en realidad con calidad premium.</p>
                 <div class="social-links">
                     <a href="#">📷</a><a href="#">📘</a><a href="#">🎵</a><a href="#">💬</a>
@@ -1155,7 +1181,9 @@
             <div class="footer-links">
                 <h4>Contacto</h4>
                 <ul>
-                    <li><a href="#">WhatsApp</a></li>
+                    <li><a href="https://wa.me/5491171416417" target="_blank" rel="noopener noreferrer">WhatsApp</a></li>
+                    <li><a href="https://www.instagram.com/kustomizarg?utm_source=qr&amp;igsh=aHBiam9lMW1wbno0" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+                    <li><a href="https://t.me/+5491171416417" target="_blank" rel="noopener noreferrer">Telegram</a></li>
                     <li><a href="#">Email</a></li>
                     <li><a href="#">Envíos</a></li>
                     <li><a href="#">Seguimiento</a></li>
