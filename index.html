@@ -138,6 +138,22 @@
         nav a:hover::before { width: 100%; }
         nav a:hover { color: var(--neon-cyan); text-shadow: 0 0 15px var(--neon-cyan); }
 
+        .nav-logo { margin-right: 6px; display: flex; align-items: center; }
+        .nav-logo::before { display: none; }
+        .nav-logo img {
+            height: 38px;
+            width: 38px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 15px rgba(184, 41, 221, 0.5);
+            transition: box-shadow 0.3s, transform 0.3s;
+        }
+        .nav-logo:hover img {
+            box-shadow: 0 0 22px rgba(5, 217, 232, 0.7);
+            transform: scale(1.08);
+        }
+
         /* =========================================
            4. HERO SECTION (Título Centrado y Seguro)
            ========================================= */
@@ -302,7 +318,7 @@
             justify-self: end;
             align-self: start;
             animation-delay: 0s;
-            background: linear-gradient(135deg, rgba(184, 41, 221, 0.2), rgba(5, 217, 232, 0.2));
+            background: linear-gradient(135deg, rgba(184, 41, 221, 0.55), rgba(5, 217, 232, 0.5)), url('images/18817a657-319b-4fa9-afaa-d93d781c40ce.png') center/cover;
         }
 
         .floating-card:nth-child(2) {
@@ -311,7 +327,7 @@
             justify-self: start;
             align-self: end;
             animation-delay: 2s;
-            background: linear-gradient(135deg, rgba(255, 42, 109, 0.2), rgba(255, 214, 10, 0.2));
+            background: linear-gradient(135deg, rgba(255, 42, 109, 0.55), rgba(255, 214, 10, 0.5)), url('images/16b71e3aa-1c0a-4810-8d18-86f9c02d6c68.png') center/cover;
         }
 
         .floating-card:nth-child(3) {
@@ -321,7 +337,7 @@
             align-self: center;
             margin-top: 30px;
             animation-delay: 4s;
-            background: linear-gradient(135deg, rgba(5, 217, 232, 0.2), rgba(184, 41, 221, 0.2));
+            background: linear-gradient(135deg, rgba(5, 217, 232, 0.55), rgba(184, 41, 221, 0.5)), url('images/1879e5bcc-1b70-4839-80ee-38d23221560b.png') center/cover;
         }
 
         @keyframes float {
@@ -412,7 +428,7 @@
             content: '';
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(180deg, transparent 0%, rgba(5, 5, 8, 0.95) 100%);
+            background: linear-gradient(180deg, transparent 0%, transparent 45%, rgba(5, 5, 8, 0.95) 100%);
             z-index: 1;
             opacity: 0.8;
             transition: opacity 0.3s;
@@ -424,8 +440,10 @@
         .category-bg {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background-size: cover;
+            background-size: contain;
+            background-repeat: no-repeat;
             background-position: center;
+            background-color: #0d0d16;
             transition: transform 0.5s;
         }
 
@@ -519,6 +537,12 @@
         }
 
         .modal-overlay.active .modal-content { transform: scale(1) translateY(0); }
+
+        #modal-cuadros .modal-content { background: linear-gradient(rgba(10, 10, 15, 0.94), rgba(10, 10, 15, 0.97)), url('images/18817a657-319b-4fa9-afaa-d93d781c40ce.png') center/cover; }
+        #modal-tazas .modal-content { background: linear-gradient(rgba(10, 10, 15, 0.94), rgba(10, 10, 15, 0.97)), url('images/16b71e3aa-1c0a-4810-8d18-86f9c02d6c68.png') center/cover; }
+        #modal-alfombras .modal-content { background: linear-gradient(rgba(10, 10, 15, 0.94), rgba(10, 10, 15, 0.97)), url('images/1879e5bcc-1b70-4839-80ee-38d23221560b.png') center/cover; }
+        #modal-varios .modal-content { background: linear-gradient(rgba(10, 10, 15, 0.94), rgba(10, 10, 15, 0.97)), url('images/1c784e7b5-ab84-44d7-a06a-3fef3e63b463.png') center/cover; }
+        #modal-personalizar .modal-content { background: linear-gradient(rgba(10, 10, 15, 0.94), rgba(10, 10, 15, 0.97)), url('images/1cea05bc4-f5d9-436c-8aae-27779e9c7921.png') center/cover; }
 
         .modal-close {
             position: absolute;
@@ -638,7 +662,7 @@
         .custom-visual {
             position: relative;
             min-height: 450px;
-            background: linear-gradient(135deg, rgba(184, 41, 221, 0.1), rgba(5, 217, 232, 0.1));
+            background: linear-gradient(135deg, rgba(10, 10, 15, 0.72), rgba(10, 10, 15, 0.55)), url('images/1f6dc7a51-5b6a-4b0a-ad3b-a36099c6434a.png') center/cover;
             border-radius: 32px;
             border: 1px solid rgba(255, 255, 255, 0.1);
             display: flex;
@@ -815,6 +839,115 @@
             font-size: 0.85rem;
         }
 
+        .footer-bottom .admin-trigger {
+            color: rgba(255, 255, 255, 0.35);
+            text-decoration: none;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.2);
+            transition: color 0.3s;
+        }
+        .footer-bottom .admin-trigger:hover { color: var(--neon-cyan); }
+
+        /* =========================================
+           GALERÍA (imágenes cargadas por categoría)
+           ========================================= */
+        .gallery-section {
+            margin: 5px 0 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding-top: 25px;
+        }
+        .gallery-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 18px;
+            color: #fff;
+        }
+        .modal-gallery, #admin-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 12px;
+        }
+        .gallery-item {
+            position: relative;
+            aspect-ratio: 1;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: #0d0d16;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* la imagen se ve completa dentro del marco */
+        }
+        .gallery-item .del-btn {
+            position: absolute;
+            top: 6px; right: 6px;
+            width: 28px; height: 28px;
+            border-radius: 50%;
+            background: rgba(5, 5, 8, 0.75);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            color: #fff;
+            font-size: 0.85rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.25s;
+        }
+        .gallery-item .del-btn:hover {
+            background: var(--neon-pink);
+            border-color: var(--neon-pink);
+        }
+        .gallery-empty {
+            grid-column: 1 / -1;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+            padding: 20px 10px;
+        }
+
+        /* =========================================
+           PANEL DE ADMINISTRACIÓN / CARGA
+           ========================================= */
+        .admin-field { margin-bottom: 18px; text-align: left; }
+        .admin-field label {
+            display: block;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: rgba(255, 255, 255, 0.65);
+            margin-bottom: 8px;
+        }
+        .admin-input, .admin-select {
+            width: 100%;
+            padding: 14px 16px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #fff;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .admin-input:focus, .admin-select:focus {
+            outline: none;
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 15px rgba(5, 217, 232, 0.2);
+        }
+        .admin-select option { background: #0a0a0f; color: #fff; }
+        .admin-msg { min-height: 22px; font-size: 0.9rem; margin: 6px 0 14px; text-align: center; }
+        .admin-msg.error { color: var(--neon-pink); }
+        .admin-msg.success { color: var(--neon-cyan); }
+        #admin-panel { text-align: left; }
+
+        /* El cursor decorativo no debe ocultar el punto de inserción en los campos */
+        input, textarea, select { cursor: auto !important; }
+
         /* =========================================
            11. RESPONSIVE (Anti-Colisión Garantizada)
            ========================================= */
@@ -902,6 +1035,7 @@
     <div class="grid-overlay"></div>
 
     <nav>
+        <a href="#inicio" class="nav-logo"><img src="images/177fc8a5f-1f40-49fd-9da0-efb2bec73aa8.png" alt="Kustomizarg"></a>
         <a href="#inicio">Inicio</a>
         <a href="#categorias">Categorías</a>
         <a href="#personalizar">Personalizar</a>
@@ -946,7 +1080,7 @@
             
             <div class="categories-grid">
                 <div class="category-item reveal" onclick="openModal('cuadros')">
-                    <div class="category-bg" style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);"></div>
+                    <div class="category-bg" style="background-image: url('images/18817a657-319b-4fa9-afaa-d93d781c40ce.png');"></div>
                     <div class="category-content">
                         <span class="category-icon">🖼️</span>
                         <h3>Cuadros</h3>
@@ -958,7 +1092,7 @@
                 </div>
 
                 <div class="category-item reveal" onclick="openModal('tazas')">
-                    <div class="category-bg" style="background: linear-gradient(135deg, #2d1b4e 0%, #1a1a2e 100%);"></div>
+                    <div class="category-bg" style="background-image: url('images/16b71e3aa-1c0a-4810-8d18-86f9c02d6c68.png');"></div>
                     <div class="category-content">
                         <span class="category-icon">☕</span>
                         <h3>Tazas</h3>
@@ -970,7 +1104,7 @@
                 </div>
 
                 <div class="category-item reveal" onclick="openModal('alfombras')">
-                    <div class="category-bg" style="background: linear-gradient(135deg, #0f3460 0%, #16213e 100%);"></div>
+                    <div class="category-bg" style="background-image: url('images/1879e5bcc-1b70-4839-80ee-38d23221560b.png');"></div>
                     <div class="category-content">
                         <span class="category-icon">🎮</span>
                         <h3>Alfombras</h3>
@@ -982,7 +1116,7 @@
                 </div>
 
                 <div class="category-item reveal" onclick="openModal('varios')">
-                    <div class="category-bg" style="background: linear-gradient(135deg, #533483 0%, #2d1b4e 100%);"></div>
+                    <div class="category-bg" style="background-image: url('images/1c784e7b5-ab84-44d7-a06a-3fef3e63b463.png');"></div>
                     <div class="category-content">
                         <span class="category-icon">🎁</span>
                         <h3>Artículos Varios</h3>
@@ -1012,6 +1146,10 @@
                 <div class="subcategory-card"><span class="subcategory-icon">📺</span><h3>YouTubers</h3><p>Creadores de contenido</p></div>
                 <div class="subcategory-card"><span class="subcategory-icon">🧸</span><h3>Infantiles</h3><p>Diseños divertidos</p></div>
             </div>
+            <div class="gallery-section">
+                <h3 class="gallery-title">Galería</h3>
+                <div class="modal-gallery" data-category="cuadros"></div>
+            </div>
             <button class="modal-customize-btn" onclick="alert('Funcionalidad de personalización (requiere backend)')">🎨 Personalizar mi Cuadro</button>
         </div>
     </div>
@@ -1028,6 +1166,10 @@
                 <div class="subcategory-card"><span class="subcategory-icon">🏺</span><h3>Cerámica</h3><p>Clásicas y elegantes</p></div>
                 <div class="subcategory-card"><span class="subcategory-icon">🥤</span><h3>Plásticas</h3><p>Resistentes para el día a día</p></div>
                 <div class="subcategory-card"><span class="subcategory-icon">🔥</span><h3>Térmicas</h3><p>Cambian de color con calor</p></div>
+            </div>
+            <div class="gallery-section">
+                <h3 class="gallery-title">Galería</h3>
+                <div class="modal-gallery" data-category="tazas"></div>
             </div>
             <button class="modal-customize-btn" onclick="alert('Funcionalidad de personalización (requiere backend)')">☕ Personalizar mi Taza</button>
         </div>
@@ -1046,6 +1188,10 @@
                 <div class="subcategory-card"><span class="subcategory-icon">🛏️</span><h3>Salida de Cama</h3><p>Suaves y acogedoras</p></div>
                 <div class="subcategory-card"><span class="subcategory-icon">🏠</span><h3>Decorativas</h3><p>Para living u oficina</p></div>
             </div>
+            <div class="gallery-section">
+                <h3 class="gallery-title">Galería</h3>
+                <div class="modal-gallery" data-category="alfombras"></div>
+            </div>
             <button class="modal-customize-btn" onclick="alert('Funcionalidad de personalización (requiere backend)')">🎮 Personalizar mi Alfombra</button>
         </div>
     </div>
@@ -1063,6 +1209,10 @@
                 <div class="subcategory-card"><span class="subcategory-icon">✨</span><h3>Stickers</h3><p>Resistentes al agua</p></div>
                 <div class="subcategory-card"><span class="subcategory-icon">🏷️</span><h3>Parches</h3><p>Para ropa y mochilas</p></div>
                 <div class="subcategory-card"><span class="subcategory-icon">🧲</span><h3>Imanes</h3><p>Para refrigerador</p></div>
+            </div>
+            <div class="gallery-section">
+                <h3 class="gallery-title">Galería</h3>
+                <div class="modal-gallery" data-category="varios"></div>
             </div>
             <button class="modal-customize-btn" onclick="alert('Funcionalidad de personalización (requiere backend)')">🎁 Personalizar mi Artículo</button>
         </div>
@@ -1091,6 +1241,52 @@
                 <li>Envíos a todo el país</li>
             </ul>
             <button class="modal-customize-btn" onclick="alert('Funcionalidad de subida (requiere backend)')">🚀 Comenzar Personalización</button>
+        </div>
+    </div>
+
+    <!-- MODAL DE ADMINISTRACIÓN / CARGA (protegido con contraseña) -->
+    <div class="modal-overlay" id="modal-admin">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('admin')">✕</button>
+            <div class="modal-header">
+                <span class="modal-icon">🔒</span>
+                <h2>Panel de Carga</h2>
+                <p>Ingresá la contraseña para administrar la galería de cada categoría</p>
+            </div>
+
+            <!-- Paso 1: contraseña -->
+            <div id="admin-lock">
+                <div class="admin-field">
+                    <label for="admin-password">Contraseña</label>
+                    <input type="password" id="admin-password" class="admin-input" placeholder="••••••••" autocomplete="current-password">
+                </div>
+                <div class="admin-msg" id="admin-lock-msg"></div>
+                <button class="modal-customize-btn" id="admin-unlock-btn">🔓 Desbloquear</button>
+            </div>
+
+            <!-- Paso 2: carga y administración -->
+            <div id="admin-panel" style="display:none;">
+                <div class="admin-field">
+                    <label for="admin-category">Categoría</label>
+                    <select id="admin-category" class="admin-select">
+                        <option value="cuadros">Cuadros</option>
+                        <option value="tazas">Tazas</option>
+                        <option value="alfombras">Alfombras</option>
+                        <option value="varios">Artículos Varios</option>
+                    </select>
+                </div>
+                <div class="admin-field">
+                    <label for="admin-files">Archivos (imágenes)</label>
+                    <input type="file" id="admin-files" class="admin-input" accept="image/*" multiple>
+                </div>
+                <div class="admin-msg" id="admin-upload-msg"></div>
+                <button class="modal-customize-btn" id="admin-upload-btn" style="margin-bottom:30px;">⬆️ Subir a la galería</button>
+
+                <div class="gallery-section" style="margin-top:0;">
+                    <h3 class="gallery-title">Archivos cargados</h3>
+                    <div id="admin-gallery"></div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -1128,10 +1324,13 @@
     <footer id="contacto">
         <div class="footer-content">
             <div class="footer-brand">
-                <h3>KUSTOMIZARG</h3>
+                <div style="display:flex; align-items:center; gap:14px; margin-bottom:15px;">
+                    <img src="images/image_99f8d23f.png" alt="Kustomizarg" style="height:46px; width:46px; object-fit:cover; border-radius:12px; box-shadow:0 6px 18px rgba(0,0,0,0.5);">
+                    <h3 style="margin-bottom:0;">KUSTOMIZARG</h3>
+                </div>
                 <p>Tu universo de productos personalizados. Transformamos tus ideas en realidad con calidad premium.</p>
                 <div class="social-links">
-                    <a href="#">📷</a><a href="#">📘</a><a href="#">🎵</a><a href="#">💬</a>
+                    <a href="https://www.instagram.com/kustomizarg?utm_source=qr&amp;igsh=aHBiam9lMW1wbno0" target="_blank" rel="noopener noreferrer" title="Instagram">📷</a><a href="https://www.facebook.com/share/18rFnDWp6R/" target="_blank" rel="noopener noreferrer" title="Facebook">📘</a><a href="https://t.me/+5491171416417" target="_blank" rel="noopener noreferrer" title="Telegram">🎵</a><a href="https://wa.me/5491171416417" target="_blank" rel="noopener noreferrer" title="WhatsApp">💬</a>
                 </div>
             </div>
             <div class="footer-links">
@@ -1155,15 +1354,17 @@
             <div class="footer-links">
                 <h4>Contacto</h4>
                 <ul>
-                    <li><a href="#">WhatsApp</a></li>
-                    <li><a href="#">Email</a></li>
-                    <li><a href="#">Envíos</a></li>
-                    <li><a href="#">Seguimiento</a></li>
+                    <li><a href="https://wa.me/5491171416417" target="_blank" rel="noopener noreferrer">WhatsApp</a></li>
+                    <li><a href="https://www.instagram.com/kustomizarg?utm_source=qr&amp;igsh=aHBiam9lMW1wbno0" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+                    <li><a href="https://www.facebook.com/share/18rFnDWp6R/" target="_blank" rel="noopener noreferrer">Facebook</a></li>
+                    <li><a href="https://t.me/+5491171416417" target="_blank" rel="noopener noreferrer">Telegram</a></li>
+                    <li><a href="mailto:kustomizar@gmail.com">Email</a></li>
                 </ul>
             </div>
         </div>
         <div class="footer-bottom">
             <p>&copy; 2026 Kustomizarg. Todos los derechos reservados. | Diseñado con 💜 en Argentina</p>
+            <p style="margin-top:10px;"><a href="#" class="admin-trigger" onclick="openModal('admin'); return false;">Panel de carga</a></p>
         </div>
     </footer>
 
@@ -1217,6 +1418,12 @@
                 if (modal) {
                     modal.classList.add('active');
                     document.body.style.overflow = 'hidden';
+                    if (CATEGORIES.includes(modalId)) {
+                        loadCategoryGallery(modalId);
+                    }
+                    if (modalId === 'admin') {
+                        resetAdminModal();
+                    }
                 }
             };
 
@@ -1245,6 +1452,188 @@
                     document.body.style.overflow = 'auto';
                 }
             });
+
+            // =========================================
+            // 5. GALERÍA + PANEL DE CARGA
+            // =========================================
+            const CATEGORIES = ['cuadros', 'tazas', 'alfombras', 'varios'];
+            window.CATEGORIES = CATEGORIES;
+            let adminPassword = null; // sólo en memoria mientras el panel esté abierto
+
+            // Carga las imágenes públicas de una categoría dentro de su modal
+            async function loadCategoryGallery(category) {
+                const container = document.querySelector(`.modal-gallery[data-category="${category}"]`);
+                if (!container) return;
+                container.innerHTML = '<p class="gallery-empty">Cargando…</p>';
+                try {
+                    const res = await fetch(`/api/gallery/list?category=${encodeURIComponent(category)}`);
+                    const data = await res.json();
+                    renderGallery(container, data.images || [], false);
+                } catch (err) {
+                    container.innerHTML = '<p class="gallery-empty">No se pudo cargar la galería.</p>';
+                }
+            }
+
+            // Dibuja una grilla de imágenes. withDelete agrega el botón de borrar (panel admin)
+            function renderGallery(container, images, withDelete) {
+                if (!images.length) {
+                    container.innerHTML = '<p class="gallery-empty">Todavía no hay archivos en esta categoría.</p>';
+                    return;
+                }
+                container.innerHTML = '';
+                images.forEach(img => {
+                    const item = document.createElement('div');
+                    item.className = 'gallery-item';
+                    const image = document.createElement('img');
+                    image.src = img.url;
+                    image.alt = img.name || 'Imagen';
+                    image.loading = 'lazy';
+                    item.appendChild(image);
+                    if (withDelete) {
+                        const btn = document.createElement('button');
+                        btn.className = 'del-btn';
+                        btn.type = 'button';
+                        btn.textContent = '✕';
+                        btn.title = 'Eliminar';
+                        btn.addEventListener('click', () => deleteImage(img.key));
+                        item.appendChild(btn);
+                    }
+                    container.appendChild(item);
+                });
+            }
+
+            function resetAdminModal() {
+                const lock = document.getElementById('admin-lock');
+                const panel = document.getElementById('admin-panel');
+                if (adminPassword) {
+                    lock.style.display = 'none';
+                    panel.style.display = 'block';
+                    loadAdminGallery();
+                } else {
+                    lock.style.display = 'block';
+                    panel.style.display = 'none';
+                    document.getElementById('admin-lock-msg').textContent = '';
+                    document.getElementById('admin-password').value = '';
+                }
+            }
+
+            // Verificar contraseña -> desbloquear panel
+            const unlockBtn = document.getElementById('admin-unlock-btn');
+            if (unlockBtn) {
+                unlockBtn.addEventListener('click', async () => {
+                    const input = document.getElementById('admin-password');
+                    const msg = document.getElementById('admin-lock-msg');
+                    const pass = input.value;
+                    if (!pass) { msg.className = 'admin-msg error'; msg.textContent = 'Ingresá la contraseña.'; return; }
+                    msg.className = 'admin-msg';
+                    msg.textContent = 'Verificando…';
+                    try {
+                        const fd = new FormData();
+                        fd.append('action', 'verify');
+                        fd.append('password', pass);
+                        const res = await fetch('/api/gallery/upload', { method: 'POST', body: fd });
+                        if (res.ok) {
+                            adminPassword = pass;
+                            document.getElementById('admin-lock').style.display = 'none';
+                            document.getElementById('admin-panel').style.display = 'block';
+                            loadAdminGallery();
+                        } else {
+                            msg.className = 'admin-msg error';
+                            msg.textContent = 'Contraseña incorrecta.';
+                        }
+                    } catch (err) {
+                        msg.className = 'admin-msg error';
+                        msg.textContent = 'Error de conexión. Intentá de nuevo.';
+                    }
+                });
+                document.getElementById('admin-password').addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') unlockBtn.click();
+                });
+            }
+
+            // Subir archivos a la categoría seleccionada
+            const uploadBtn = document.getElementById('admin-upload-btn');
+            if (uploadBtn) {
+                uploadBtn.addEventListener('click', async () => {
+                    const category = document.getElementById('admin-category').value;
+                    const filesInput = document.getElementById('admin-files');
+                    const msg = document.getElementById('admin-upload-msg');
+                    if (!adminPassword) { resetAdminModal(); return; }
+                    if (!filesInput.files.length) {
+                        msg.className = 'admin-msg error';
+                        msg.textContent = 'Elegí al menos un archivo.';
+                        return;
+                    }
+                    const fd = new FormData();
+                    fd.append('password', adminPassword);
+                    fd.append('category', category);
+                    for (const file of filesInput.files) fd.append('files', file);
+
+                    msg.className = 'admin-msg';
+                    msg.textContent = 'Subiendo…';
+                    uploadBtn.disabled = true;
+                    try {
+                        const res = await fetch('/api/gallery/upload', { method: 'POST', body: fd });
+                        const data = await res.json().catch(() => ({}));
+                        if (res.ok) {
+                            msg.className = 'admin-msg success';
+                            msg.textContent = `¡Listo! Se subieron ${data.saved ? data.saved.length : ''} archivo(s).`;
+                            filesInput.value = '';
+                            loadAdminGallery();
+                        } else {
+                            msg.className = 'admin-msg error';
+                            msg.textContent = data.error || 'No se pudo subir.';
+                        }
+                    } catch (err) {
+                        msg.className = 'admin-msg error';
+                        msg.textContent = 'Error de conexión. Intentá de nuevo.';
+                    } finally {
+                        uploadBtn.disabled = false;
+                    }
+                });
+            }
+
+            const adminCategory = document.getElementById('admin-category');
+            if (adminCategory) {
+                adminCategory.addEventListener('change', loadAdminGallery);
+            }
+
+            // Lista los archivos de la categoría elegida, con opción de borrar
+            async function loadAdminGallery() {
+                const container = document.getElementById('admin-gallery');
+                const category = document.getElementById('admin-category').value;
+                if (!container) return;
+                container.innerHTML = '<p class="gallery-empty">Cargando…</p>';
+                try {
+                    const res = await fetch(`/api/gallery/list?category=${encodeURIComponent(category)}`);
+                    const data = await res.json();
+                    renderGallery(container, data.images || [], true);
+                } catch (err) {
+                    container.innerHTML = '<p class="gallery-empty">No se pudo cargar la galería.</p>';
+                }
+            }
+
+            async function deleteImage(key) {
+                if (!adminPassword) { resetAdminModal(); return; }
+                const msg = document.getElementById('admin-upload-msg');
+                try {
+                    const res = await fetch('/api/gallery/delete', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ password: adminPassword, key }),
+                    });
+                    if (res.ok) {
+                        loadAdminGallery();
+                    } else {
+                        const data = await res.json().catch(() => ({}));
+                        msg.className = 'admin-msg error';
+                        msg.textContent = data.error || 'No se pudo eliminar.';
+                    }
+                } catch (err) {
+                    msg.className = 'admin-msg error';
+                    msg.textContent = 'Error de conexión al eliminar.';
+                }
+            }
         });
     </script>
 </body>
