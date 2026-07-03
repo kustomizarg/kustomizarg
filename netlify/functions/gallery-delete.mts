@@ -3,7 +3,9 @@ import { getStore } from '@netlify/blobs'
 
 const CATEGORIES = ['cuadros', 'tazas', 'alfombras', 'varios']
 const PASSWORD_SALT = 'kustomizarg::gallery::v1'
-const PASSWORD_HASH = 'f3fcc2402a3c3b1b4ec32e5d5939488b6ff70a67c52bacf4f9461ee4f33ad802'
+// Hash por defecto correspondiente a la contraseña por defecto (debe coincidir con gallery-upload.mts).
+// Se puede sobreescribir con la variable de entorno GALLERY_ADMIN_PASSWORD.
+const PASSWORD_HASH = '622a385b3a9b4ec69758f3dcc08d5bdfcde11b424864d66af1db85787034e329'
 
 async function sha256Hex(value: string): Promise<string> {
   const data = new TextEncoder().encode(value)
@@ -15,9 +17,11 @@ async function sha256Hex(value: string): Promise<string> {
 
 async function isValidPassword(password: unknown): Promise<boolean> {
   if (typeof password !== 'string' || !password) return false
+  const candidate = password.trim()
+  if (!candidate) return false
   const override = Netlify.env.get('GALLERY_ADMIN_PASSWORD')
-  if (override) return password === override
-  return (await sha256Hex(`${PASSWORD_SALT}|${password}`)) === PASSWORD_HASH
+  if (override) return candidate === override.trim()
+  return (await sha256Hex(`${PASSWORD_SALT}|${candidate}`)) === PASSWORD_HASH
 }
 
 export default async (req: Request, _context: Context) => {
