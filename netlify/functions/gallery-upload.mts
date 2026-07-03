@@ -6,9 +6,12 @@ const CATEGORIES = ['cuadros', 'tazas', 'alfombras', 'varios']
 
 // Verificación de contraseña.
 // La contraseña NO se guarda en texto plano: se compara contra un hash SHA-256 con sal.
-// Se puede sobreescribir con la variable de entorno GALLERY_ADMIN_PASSWORD si se define.
+// El hash se genera con la MISMA fórmula que usa isValidPassword: sha256(`${PASSWORD_SALT}|${password}`).
+// Recomendado: definir la variable de entorno GALLERY_ADMIN_PASSWORD para usar tu propia
+// contraseña privada; si está definida, tiene prioridad sobre el hash por defecto.
 const PASSWORD_SALT = 'kustomizarg::gallery::v1'
-const PASSWORD_HASH = 'f3fcc2402a3c3b1b4ec32e5d5939488b6ff70a67c52bacf4f9461ee4f33ad802'
+// Hash por defecto correspondiente a la contraseña por defecto (ver README/entrega).
+const PASSWORD_HASH = '622a385b3a9b4ec69758f3dcc08d5bdfcde11b424864d66af1db85787034e329'
 
 const MAX_FILE_BYTES = 5 * 1024 * 1024 // 5 MB por archivo
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/svg+xml']
@@ -23,9 +26,12 @@ async function sha256Hex(value: string): Promise<string> {
 
 async function isValidPassword(password: string | null): Promise<boolean> {
   if (!password) return false
+  // Se recortan espacios accidentales (p. ej. autocompletado móvil) antes de comparar.
+  const candidate = password.trim()
+  if (!candidate) return false
   const override = Netlify.env.get('GALLERY_ADMIN_PASSWORD')
-  if (override) return password === override
-  const hashed = await sha256Hex(`${PASSWORD_SALT}|${password}`)
+  if (override) return candidate === override.trim()
+  const hashed = await sha256Hex(`${PASSWORD_SALT}|${candidate}`)
   return hashed === PASSWORD_HASH
 }
 
