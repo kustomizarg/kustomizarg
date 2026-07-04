@@ -1048,7 +1048,7 @@
                 <h1>KUSTOMIZARG</h1>
                 <p>Transformamos tus ideas en productos únicos. Cuadros, tazas, alfombras y más con tus diseños favoritos de anime, fútbol, música y cultura pop.</p>
                 <div class="cta-group">
-                    <button class="btn-primary" onclick="openModal('cuadros')">Explorar Catálogo</button>
+                    <button class="btn-primary" onclick="window.open('https://drive.google.com/drive/mobile/folders/1bpKnfszeD0qcIndHBhImDORnd-9MbPgs?hl=es_419&utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAb21jcAS0sAFleHRuA2FlbQIxMQBzcnRjBmFwcF9pZA81NjcwNjczNDMzNTI0MjcAAafyZeGiQH0N7blWrERog51SH7kcqKE1nAOf_Mba8jjUSaZC-GFAJ2SFpvJgfw_aem_JjFRRBO0UuIIBtDbwfauJg', '_blank', 'noopener')">Explorar Catálogo</button>
                     <button class="btn-secondary" onclick="openModal('personalizar')">Subir mi Diseño</button>
                 </div>
             </div>
@@ -1226,21 +1226,40 @@
                 <h2>Subí tu Diseño</h2>
                 <p>Arrastrá tu archivo o hacé clic para seleccionar</p>
             </div>
-            <div class="upload-zone" style="margin-bottom: 30px;">
-                <span class="upload-icon">📤</span>
-                <h3>Arrastrá tu archivo aquí</h3>
-                <p>o hacé clic para seleccionar</p>
-                <div class="file-types">
-                    <span class="file-type">JPG</span><span class="file-type">PNG</span><span class="file-type">SVG</span><span class="file-type">PDF</span><span class="file-type">Máx. 50MB</span>
+            <!-- Paso 1: seleccionar y subir la imagen -->
+            <div id="design-step-upload">
+                <input type="file" id="design-file" accept="image/*" hidden>
+                <div class="upload-zone" id="design-dropzone" style="margin-bottom: 20px; cursor: pointer;">
+                    <span class="upload-icon">📤</span>
+                    <h3 id="design-dropzone-title">Arrastrá tu archivo aquí</h3>
+                    <p id="design-dropzone-hint">o hacé clic para seleccionar</p>
+                    <div class="file-types">
+                        <span class="file-type">JPG</span><span class="file-type">PNG</span><span class="file-type">WEBP</span><span class="file-type">Máx. 10MB</span>
+                    </div>
                 </div>
+                <div class="admin-msg" id="design-upload-msg"></div>
+                <button class="modal-customize-btn" id="design-upload-btn">🚀 Enviar mi diseño</button>
             </div>
-            <ul class="feature-list">
+
+            <!-- Paso 2: pedir el número de celular (11 dígitos) -->
+            <div id="design-step-phone" style="display:none;">
+                <p style="color: rgba(255,255,255,0.85); line-height: 1.55; margin-bottom: 20px;">
+                    Nuestro equipo de diseño necesita algún número de celular, para poder pasarte una cotización.
+                </p>
+                <div class="admin-field">
+                    <label for="design-phone">Número de celular (11 dígitos)</label>
+                    <input type="tel" id="design-phone" class="admin-input" inputmode="numeric" maxlength="11" placeholder="Ej: 11234567890 (11 dígitos)" autocomplete="tel">
+                </div>
+                <div class="admin-msg" id="design-phone-msg"></div>
+                <button class="modal-customize-btn" id="design-phone-btn">📲 Enviar por WhatsApp</button>
+            </div>
+
+            <ul class="feature-list" style="margin-top: 26px;">
                 <li>Asesoramiento personalizado sin cargo</li>
                 <li>Preview digital antes de producir</li>
                 <li>Calidad premium garantizada</li>
                 <li>Envíos a todo el país</li>
             </ul>
-            <button class="modal-customize-btn" onclick="alert('Funcionalidad de subida (requiere backend)')">🚀 Comenzar Personalización</button>
         </div>
     </div>
 
@@ -1423,6 +1442,9 @@
                     }
                     if (modalId === 'admin') {
                         resetAdminModal();
+                    }
+                    if (modalId === 'personalizar' && typeof resetDesignModal === 'function') {
+                        resetDesignModal();
                     }
                 }
             };
@@ -1633,6 +1655,159 @@
                     msg.className = 'admin-msg error';
                     msg.textContent = 'Error de conexión al eliminar.';
                 }
+            }
+
+            // =========================================
+            // 6. "SUBÍ TU DISEÑO" -> WhatsApp casilla presupuestos
+            // =========================================
+            // Número de WhatsApp de la casilla presupuestos (sólo dígitos, con código de país).
+            const PRESUPUESTOS_WHATSAPP = '5491171416417';
+            let designUploadId = null; // referencia de la imagen ya subida, a la espera del número
+
+            function resetDesignModal() {
+                designUploadId = null;
+                const stepUpload = document.getElementById('design-step-upload');
+                const stepPhone = document.getElementById('design-step-phone');
+                const fileInput = document.getElementById('design-file');
+                const title = document.getElementById('design-dropzone-title');
+                const hint = document.getElementById('design-dropzone-hint');
+                if (stepUpload) stepUpload.style.display = 'block';
+                if (stepPhone) stepPhone.style.display = 'none';
+                if (fileInput) fileInput.value = '';
+                if (title) title.textContent = 'Arrastrá tu archivo aquí';
+                if (hint) hint.textContent = 'o hacé clic para seleccionar';
+                const uMsg = document.getElementById('design-upload-msg');
+                const pMsg = document.getElementById('design-phone-msg');
+                if (uMsg) { uMsg.className = 'admin-msg'; uMsg.textContent = ''; }
+                if (pMsg) { pMsg.className = 'admin-msg'; pMsg.textContent = ''; }
+                const phone = document.getElementById('design-phone');
+                if (phone) phone.value = '';
+            }
+            window.resetDesignModal = resetDesignModal;
+
+            const designFile = document.getElementById('design-file');
+            const designDropzone = document.getElementById('design-dropzone');
+            const designUploadBtn = document.getElementById('design-upload-btn');
+            const designPhoneBtn = document.getElementById('design-phone-btn');
+
+            function showSelectedFile(file) {
+                const title = document.getElementById('design-dropzone-title');
+                const hint = document.getElementById('design-dropzone-hint');
+                if (title) title.textContent = '✅ ' + file.name;
+                if (hint) hint.textContent = 'Hacé clic para elegir otra imagen';
+            }
+
+            if (designDropzone && designFile) {
+                designDropzone.addEventListener('click', () => designFile.click());
+                designFile.addEventListener('change', () => {
+                    if (designFile.files.length) showSelectedFile(designFile.files[0]);
+                });
+                // Soporte para arrastrar y soltar
+                ['dragover', 'dragenter'].forEach((ev) =>
+                    designDropzone.addEventListener(ev, (e) => { e.preventDefault(); designDropzone.style.opacity = '0.75'; }));
+                ['dragleave', 'drop'].forEach((ev) =>
+                    designDropzone.addEventListener(ev, () => { designDropzone.style.opacity = '1'; }));
+                designDropzone.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    if (e.dataTransfer.files && e.dataTransfer.files.length) {
+                        designFile.files = e.dataTransfer.files;
+                        showSelectedFile(designFile.files[0]);
+                    }
+                });
+            }
+
+            // Paso 1: subir la imagen
+            if (designUploadBtn) {
+                designUploadBtn.addEventListener('click', async () => {
+                    const msg = document.getElementById('design-upload-msg');
+                    if (!designFile || !designFile.files.length) {
+                        msg.className = 'admin-msg error';
+                        msg.textContent = 'Elegí una imagen para enviar.';
+                        return;
+                    }
+                    const fd = new FormData();
+                    fd.append('file', designFile.files[0]);
+                    msg.className = 'admin-msg';
+                    msg.textContent = 'Subiendo tu diseño…';
+                    designUploadBtn.disabled = true;
+                    try {
+                        const res = await fetch('/api/design/upload', { method: 'POST', body: fd });
+                        const data = await res.json().catch(() => ({}));
+                        if (res.ok && data.id) {
+                            designUploadId = data.id;
+                            // Carga completada: pedir el número de celular.
+                            document.getElementById('design-step-upload').style.display = 'none';
+                            document.getElementById('design-step-phone').style.display = 'block';
+                            document.getElementById('design-phone').focus();
+                        } else {
+                            msg.className = 'admin-msg error';
+                            msg.textContent = data.error || 'No se pudo subir la imagen.';
+                        }
+                    } catch (err) {
+                        msg.className = 'admin-msg error';
+                        msg.textContent = 'Error de conexión. Intentá de nuevo.';
+                    } finally {
+                        designUploadBtn.disabled = false;
+                    }
+                });
+            }
+
+            // Paso 2: validar el número (11 dígitos), renombrar y abrir WhatsApp
+            if (designPhoneBtn) {
+                const phoneInput = document.getElementById('design-phone');
+                if (phoneInput) {
+                    // Sólo permitir dígitos en el campo.
+                    phoneInput.addEventListener('input', () => {
+                        phoneInput.value = phoneInput.value.replace(/\D/g, '').slice(0, 11);
+                    });
+                    phoneInput.addEventListener('keydown', (e) => {
+                        if (e.key === 'Enter') designPhoneBtn.click();
+                    });
+                }
+                designPhoneBtn.addEventListener('click', async () => {
+                    const msg = document.getElementById('design-phone-msg');
+                    const phone = (phoneInput ? phoneInput.value : '').replace(/\D/g, '');
+                    if (phone.length !== 11) {
+                        msg.className = 'admin-msg error';
+                        msg.textContent = 'El número debe tener 11 dígitos.';
+                        return;
+                    }
+                    if (!designUploadId) {
+                        msg.className = 'admin-msg error';
+                        msg.textContent = 'No encontramos tu imagen. Volvé a subirla.';
+                        return;
+                    }
+                    msg.className = 'admin-msg';
+                    msg.textContent = 'Preparando tu envío…';
+                    designPhoneBtn.disabled = true;
+                    try {
+                        const res = await fetch('/api/design/finalize', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ id: designUploadId, phone }),
+                        });
+                        const data = await res.json().catch(() => ({}));
+                        if (res.ok && data.url) {
+                            const text =
+                                'Hola! Te envío mi diseño para una cotización.\n' +
+                                'Mi celular: ' + phone + '\n' +
+                                'Imagen (' + (data.filename || 'diseño') + '): ' + data.url;
+                            const wa = 'https://wa.me/' + PRESUPUESTOS_WHATSAPP + '?text=' + encodeURIComponent(text);
+                            msg.className = 'admin-msg success';
+                            msg.innerHTML = '¡Listo! Abriendo WhatsApp… Si no se abre, <a href="' + wa +
+                                '" target="_blank" rel="noopener" style="color:var(--neon-cyan); text-decoration:underline;">tocá acá para enviar tu diseño</a>.';
+                            window.open(wa, '_blank', 'noopener');
+                        } else {
+                            msg.className = 'admin-msg error';
+                            msg.textContent = data.error || 'No se pudo completar el envío.';
+                        }
+                    } catch (err) {
+                        msg.className = 'admin-msg error';
+                        msg.textContent = 'Error de conexión. Intentá de nuevo.';
+                    } finally {
+                        designPhoneBtn.disabled = false;
+                    }
+                });
             }
         });
     </script>
