@@ -4,6 +4,15 @@ import { getStore } from '@netlify/blobs'
 // Categorías válidas (deben coincidir con los segmentos de la página)
 const CATEGORIES = ['cuadros', 'tazas', 'alfombras', 'varios']
 
+// Subcategorías válidas por categoría (slugs; deben coincidir con la página).
+// Cada imagen se guarda dentro de una de estas subcategorías descriptas.
+const SUBCATEGORIES: Record<string, string[]> = {
+  cuadros: ['anime', 'futbol', 'musica', 'youtubers', 'infantiles'],
+  tazas: ['ceramica', 'plasticas', 'termicas'],
+  alfombras: ['pads-gamers', 'salida-de-cama', 'decorativas'],
+  varios: ['llaveros', 'stickers', 'parches', 'imanes'],
+}
+
 // Verificación de contraseña.
 // La contraseña NO se guarda en texto plano: se compara contra un hash SHA-256 con sal.
 // El hash se genera con la MISMA fórmula que usa isValidPassword: sha256(`${PASSWORD_SALT}|${password}`).
@@ -58,6 +67,11 @@ export default async (req: Request, _context: Context) => {
     return Response.json({ error: 'Categoría inválida' }, { status: 400 })
   }
 
+  const subcategory = form.get('subcategory')
+  if (typeof subcategory !== 'string' || !SUBCATEGORIES[category].includes(subcategory)) {
+    return Response.json({ error: 'Subcategoría inválida' }, { status: 400 })
+  }
+
   const files = form.getAll('files').filter((f): f is File => f instanceof File && f.size > 0)
   if (files.length === 0) {
     return Response.json({ error: 'No se recibió ningún archivo' }, { status: 400 })
@@ -75,13 +89,14 @@ export default async (req: Request, _context: Context) => {
     }
 
     const id = `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`
-    const key = `${category}/${id}`
+    const key = `${category}/${subcategory}/${id}`
     const buffer = await file.arrayBuffer()
     await store.set(key, buffer, {
       metadata: {
         contentType: file.type,
         name: file.name,
         category,
+        subcategory,
         uploadedAt: new Date().toISOString(),
       },
     })

@@ -15,6 +15,7 @@ export default async (req: Request, _context: Context) => {
     url: string
     name: string
     category: string
+    subcategory: string
     uploadedAt: string
   }> = []
 
@@ -23,11 +24,14 @@ export default async (req: Request, _context: Context) => {
     for (const blob of blobs) {
       const meta = await store.getMetadata(blob.key)
       const m = (meta?.metadata ?? {}) as Record<string, string>
+      const segments = blob.key.split('/')
       images.push({
         key: blob.key,
         url: `/api/gallery/image/${blob.key}`,
-        name: m.name ?? blob.key.split('/').pop() ?? blob.key,
-        category: m.category ?? blob.key.split('/')[0],
+        name: m.name ?? segments[segments.length - 1] ?? blob.key,
+        category: m.category ?? segments[0],
+        // Las imágenes antiguas (sin subcategoría) quedan agrupadas bajo "general".
+        subcategory: m.subcategory ?? (segments.length >= 3 ? segments[1] : 'general'),
         uploadedAt: m.uploadedAt ?? '',
       })
     }
